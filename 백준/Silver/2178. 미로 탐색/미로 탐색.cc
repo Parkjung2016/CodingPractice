@@ -26,7 +26,7 @@ void BFS(int x, int y)
 			if (nx < 0 || ny < 0 || nx >= row || ny >= col) continue;
 			if (board[nx][ny] == '1' && visited[nx][ny] == 0)
 			{
-				que.push({ nx,ny });
+				que.emplace(nx, ny);
 				visited[nx][ny] = visited[x][y] + 1;
 			}
 		}
