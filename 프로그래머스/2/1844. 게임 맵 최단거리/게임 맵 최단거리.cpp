@@ -2,46 +2,37 @@
 #include <queue>
 using namespace std;
 
+int row, col;
 int visited[101][101];
-int dx[4] = {0,1,0,-1};
-int dy[4] = {1,0,-1,0};
-int a[101][101];
 
+queue<pair<int, int>>que;
+int dx[] = { 1, 0, -1, 0 };
+int dy[] = { 0, 1, 0, -1 };
 int solution(vector<vector<int> > maps)
 {
-    int n = maps.size();
-    int m = maps[0].size();
-    int answer = -1;
+	int row = maps.size();
+	int col = maps[0].size();
+	que.emplace(0, 0);
+	visited[row][col] = 1;
+	while (!que.empty())
+	{
+		int x = que.front().first;
+		int y = que.front().second;
+		que.pop();
+		for (int i = 0; i < 4; i++)
+		{
+			int nx = x + dx[i];
+			int ny = y + dy[i]; // row 행사이즈, col 열사이즈
+			if (nx < 0 || ny < 0 || nx >= row || ny >= col) continue;
+			if (maps[nx][ny] == 1 && visited[nx][ny] == 0)
+			{
+        
+				que.emplace(nx, ny);
+				visited[nx][ny] = visited[x][y] + 1;
+			}
+		}
+	}
 
-    queue<pair<int, int>> q; 
-    q.push({0,0});
-    visited[0][0] = 1;
-    a[0][0] = 1;
-    while(!q.empty()) {
-        int cx = q.front().first;
-        int cy = q.front().second;
-        q.pop();
-
-        for (int i = 0; i<4; i++) {
-            int nx = cx + dx[i];
-            int ny = cy + dy[i];
-            if( nx < 0 || ny < 0 || nx >=n || ny >=m ) {
-                continue;
-            }
-
-            if(maps[nx][ny] == 1 && visited[nx][ny] == 0) {
-
-                int dsum = a[cx][cy] + 1;
-
-                if (a[nx][ny] == 0 || a[nx][ny] > dsum) {
-                    a[nx][ny] = dsum;
-                    q.push({nx,ny});
-                    visited[nx][ny] = 1;
-                } 
-            }
-        }
-    }
-
-    if (a[n-1][m-1] !=0) return a[n-1][m-1];
-    return answer;
+if(visited[row-1][col-1] != 0) return visited[row-1][col-1]+1;
+    return -1;
 }
