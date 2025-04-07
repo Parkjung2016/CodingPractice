@@ -1,13 +1,13 @@
 #include <queue>
 #include <cstring>
 #include <iostream>
+#include <queue>
 #define  MAX 1001
 using namespace std;
 
-
+int n, m, v;
 int arr[MAX][MAX];
 bool visited[MAX];
-int n;
 void dfs(int v)
 {
 	visited[v] = true;
@@ -16,24 +16,19 @@ void dfs(int v)
 	for (int i = 1; i <= n; i++)
 	{
 		if (arr[v][i] == 1 && !visited[i])
-		{
 			dfs(i);
-		}
 	}
 }
-
 void bfs(int v)
 {
-	queue<int> q;
+	queue<int>	q;
+	q.push(v);
 	visited[v] = true;
 	cout << v << " ";
-	q.push(v);
-
 	while (!q.empty())
 	{
 		v = q.front();
 		q.pop();
-
 		for (int i = 1; i <= n; i++)
 		{
 			if (arr[v][i] == 1 && !visited[i])
@@ -42,29 +37,24 @@ void bfs(int v)
 				cout << i << " ";
 				q.push(i);
 			}
-
 		}
 	}
 }
 int main()
 {
-	int m, v;
 
 	cin >> n >> m >> v;
 
 	for (int i = 0; i < m; i++)
 	{
 		int a, b;
-
 		cin >> a >> b;
+
 		arr[a][b] = 1;
 		arr[b][a] = 1;
 	}
-
 	dfs(v);
-
-	cout << "\n";
-
 	memset(visited, 0, sizeof(visited));
+	cout << "\n";
 	bfs(v);
 }
