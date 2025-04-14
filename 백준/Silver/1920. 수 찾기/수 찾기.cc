@@ -8,18 +8,19 @@
 #include <map>
 #include <numeric>
 using namespace std;
-#define  MAX 100001
+
+#define MAX 100001
 
 int arr[MAX];
 int n;
 
 void binary_search(int num)
 {
-	int left = 0, right = n - 1;
+	int left = 0, right = n - 1, mid;
 
 	while (left <= right)
 	{
-		int mid = (left + right) / 2;
+		mid = (left + right) / 2;
 
 		if (arr[mid] == num)
 		{
@@ -27,31 +28,28 @@ void binary_search(int num)
 			return;
 		}
 
-		if (arr[mid] > num)
-		{
-			right = mid - 1;
-		}
-		else
+		if (arr[mid] < num)
 		{
 			left = mid + 1;
 		}
+		else
+		{
+			right = mid - 1;
+		}
 	}
-
 	cout << 0 << "\n";
-
 }
-
 int main()
 {
 	ios_base::sync_with_stdio(false);
 	cin.tie(nullptr);
 	cout.tie(nullptr);
+
 	cin >> n;
 	for (int i = 0; i < n; i++)
 	{
 		cin >> arr[i];
 	}
-
 	int m;
 	cin >> m;
 	sort(arr, arr + n);
