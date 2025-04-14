@@ -1,38 +1,45 @@
 #include<vector>
-#include <queue>
+#include<queue>
 using namespace std;
 
-int row, col;
-int visited[101][101];
+bool visited[101][101];
+int dist[101][101];
+int dx[]={-1,1,0,0};
+int dy[]={0,0,-1,1};
+void bfs(const vector<vector<int> >& maps)
+{
+    queue<pair<int,int>> q;
+    q.push({0,0});
+    visited[0][0]=true;
+    dist[0][0]=1;
+    while(!q.empty())
+    {
+        pair<int,int> pair= q.front();
+        q.pop();
+        
+        int y= pair.first;
+        int x= pair.second;
+        for(int i =0; i<4;i++)
+        {
+            int nx=  x+ dx[i];
+            int ny=  y+ dy[i];
+            if(nx>=0 && ny>=0 && ny< maps.size() && 
+               nx < maps[0].size() && maps[ny][nx]==1 && !visited[ny][nx]){
+                visited[ny][nx]=true;
+                dist[ny][nx]= dist[y][x]+1;
+                q.push({ny,nx});
+            }
+        }
+    }
+}
 
-queue<pair<int, int>>que;
-int dx[] = { 1, 0, -1, 0 };
-int dy[] = { 0, 1, 0, -1 };
 int solution(vector<vector<int> > maps)
 {
-	int row = maps.size();
-	int col = maps[0].size();
-	que.emplace(0, 0);
-	visited[row][col] = 1;
-	while (!que.empty())
-	{
-		int x = que.front().first;
-		int y = que.front().second;
-		que.pop();
-		for (int i = 0; i < 4; i++)
-		{
-			int nx = x + dx[i];
-			int ny = y + dy[i]; // row 행사이즈, col 열사이즈
-			if (nx < 0 || ny < 0 || nx >= row || ny >= col) continue;
-			if (maps[nx][ny] == 1 && visited[nx][ny] == 0)
-			{
-        
-				que.emplace(nx, ny);
-				visited[nx][ny] = visited[x][y] + 1;
-			}
-		}
-	}
-
-if(visited[row-1][col-1] != 0) return visited[row-1][col-1]+1;
-    return -1;
+    int answer = -1;
+    
+    bfs(maps);
+    int dis = dist[maps.size()-1][maps[0].size()-1];
+    if(dis!=0)
+        answer= dis;
+    return answer;
 }
