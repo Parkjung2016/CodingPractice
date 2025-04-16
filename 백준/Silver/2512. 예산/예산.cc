@@ -1,56 +1,47 @@
+#include <iostream>
 #include <algorithm>
 #include <queue>
-#include <cstring>
-#include <string>
-#include <iostream>
 #include <vector>
-#include <string>
-#include <map>
-
-
-using namespace std;
-#define  MAX 10001
+#include <climits>
+using namespace   std;
+#define  MAX 10000
 
 int arr[MAX];
-int n, m;
+int n;
+int m;
 
-void binary_search()
+int answer;
+void SetMaxPrice()
 {
-	int low = 0;
-	int high = *max_element(arr, arr + n);
-	int result;
+	int low = 0, high = *max_element(arr, arr + n);
 	while (low <= high)
 	{
 		int mid = (low + high) / 2;
-		long long total = 0;
-
+		int sum = 0;
 		for (int i = 0; i < n; i++)
 		{
-			total += min(arr[i], mid);
+			sum += min(arr[i], mid);
 		}
 
-		if (total <= m)
+		if (sum <= m)
 		{
-			result = mid;
+			answer = max(answer, mid);
 			low = mid + 1;
 		}
 		else
-		{
 			high = mid - 1;
-		}
 	}
-	cout << result;
 }
 int main()
 {
 	cin >> n;
-
 	for (int i = 0; i < n; i++)
 	{
 		cin >> arr[i];
 	}
-
 	cin >> m;
+	SetMaxPrice();
+	cout << answer;
 
-	binary_search();
+	return 0;
 }
