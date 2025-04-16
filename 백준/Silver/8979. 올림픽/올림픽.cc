@@ -39,12 +39,22 @@ int main()
 	}
 
 	sort(v, v + n, compare);
+	int rank = 1;
 	for (int i = 0; i < n; i++)
 	{
+		if (i > 0)
+		{
+			if (!(v[i].gold == v[i - 1].gold &&
+				v[i].silver == v[i - 1].silver &&
+				v[i].bronze == v[i - 1].bronze))
+			{
+				rank = i + 1;
+			}
+		}
+
 		if (v[i].index == k)
 		{
-			cout << i;
-			return 0;
+			cout << rank;
 		}
 	}
 	return 0;
