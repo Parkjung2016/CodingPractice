@@ -5,7 +5,7 @@
 #include <string>
 #include <algorithm>
 #include <climits>
-#define MAX 2001
+#define MAX 100001
 using namespace std;
 
 long long roadLength[MAX];
