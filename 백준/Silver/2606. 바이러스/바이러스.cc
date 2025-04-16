@@ -1,48 +1,52 @@
 #include <iostream>
+#include <map>
 #include <queue>
-#define MAX  101
-using  namespace std;
+#include <vector>
+#include <string>
+#include <algorithm>
+#include <climits>
+#include <map>
+#define MAX 101
+using namespace std;
 
-int arr[MAX][MAX];
+vector<int> arr[MAX];
 bool visited[MAX];
-int countNum;
-int n, k;
-
-void bfs(int v)
+int compCount;
+void bfs()
 {
-	queue<int> q;
-	q.push(v);
-	visited[v] = true;
-
+	queue <int> q;
+	q.push(1);
+	visited[1] = true;
 	while (!q.empty())
 	{
-		v = q.front();
+		int num = q.front();
 		q.pop();
-		for (int i = 1; i <= n; i++)
+		for (int i = 0; i < arr[num].size(); i++)
 		{
-			if (arr[v][i] == 1 && !visited[i])
+			int next = arr[num][i];
+
+			if (!visited[next])
 			{
-				q.push(i);
-				visited[i] = true;
-				countNum++;
+				compCount++;
+				visited[next] = true;
+				q.push(next);
 			}
 		}
 	}
 }
 int main()
 {
-	cin >> n >> k;
-
-	for (int i = 0; i < k; i++)
+	int n, m;
+	cin >> n >> m;
+	for (int i = 0; i < m; i++)
 	{
 		int a, b;
 		cin >> a >> b;
-		arr[a][b] = 1;
-		arr[b][a] = 1;
+		arr[a].push_back(b);
+		arr[b].push_back(a);
 	}
+	bfs();
 
-	bfs(1);
-
-	cout << countNum;
-
+	cout << compCount;
+	return 0;
 }
