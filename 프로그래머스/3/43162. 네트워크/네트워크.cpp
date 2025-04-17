@@ -1,30 +1,39 @@
 #include <string>
 #include <vector>
+#include <queue>
 
 using namespace std;
+int answer = 0;
 bool visited[201];
-void dfs(int n, vector<vector<int>> computers,int index)
-{
-    visited[index] =true;
-    for(int i =0;i<n;i++)
+void bfs(int start,const vector<vector<int>>& computers){
+    queue<int> q;
+    q.push(start);
+    visited[start]=true;
+    while(!q.empty())
     {
-        if(computers[index][i]==1 && !visited[i])
+        int index= q.front();
+        q.pop();
+
+        for(int i =0;i<computers.size();i++)
         {
-            dfs(n,computers,i);
+            if( computers[index][i]==1 &&!visited[i]) {
+                q.push(i);
+                visited[i]=true;
+            }
         }
+
+
     }
 }
 int solution(int n, vector<vector<int>> computers) {
-    int answer = 0;
-    
+
     for(int i =0;i<n;i++)
     {
-            if( !visited[i])
-            {
-                answer++;
- dfs(n, computers, i);
-            }
-
+        if(!visited[i])
+        {
+            bfs(i,computers);
+            answer++;
+        }
     }
     return answer;
 }
